@@ -13,21 +13,28 @@ SqueakNP supports **VRChat's Chatbox** feature, allowing other players to see wh
 ![A chatbox popup over a users head showing what they are listening to](repo/vrchat.png)
 
 # How to Install
-> <sub>⚠️ You must be running Windows 10 or Windows 11.</sub>
+> <sub>⚠️ You must be running Windows 10 or Windows 11 to use SqueakNP.</sub>
 <sub>Older or Alternative Operating Systems are untested and likely unsupported.</sub>
 <sub><sub></br>*Sorry Linux friends, you'll get some appreciation sooner or later!*</sub></sub>
 
-SqueakNP is fully self-contained and does not require any system-wide dependancy Installation.</br>
-
-Simply grab the latest Source Code via the green "Code" button at the top right, and click "Download ZIP"</br>
-Once you've downloaded it, extract it and run the **"start.bat"** script to begin using SqueakNP.
-
-If nothing goes wrong, start playing some media on your favorite multimedia application and you should see it popup in the Terminal.
+**Since SqueakNP is not self-packaged yet, you're going to have to setup Python 3.1x on your system.**</br>
+1. You can either grab Python at the [Official Website](https://www.python.org/downloads/) or from the [Microsoft Store](https://apps.microsoft.com/detail/9PNRBTZXMB4Z?hl=en-us&gl=US&ocid=pdpshare)</br>
+2. Once it's installed, go ahead and grab the latest version of SqueakNP from the releases tab.</br>
+3. Extract the zip file, and open a Terminal window to it. Make sure the Terminal's path is set to where all files are, instead of just the subfolder.</br>
+4. Create a new Virtual Environment with the following command.
+```
+python3 -m venv env
+```
+5. You should see a new folder appear called "env", now we can install the required dependencies to it!
+```
+env/Scripts/pip.exe install -r requirements.txt
+```
+If you saw no errors during this process, congrats! You've got all the dependencies installed, and now you can run SqueakNP by running "start.bat"!</br>
 
 ## Setup for VRChat
 **SqueakNP requires manually enabling VRChat's Chatbox support.**</br>
 If you've ran SqueakNP for the first time, you should see a new file named "squeakconfig.cfg"</br>
-Right-click it and open it with Notepad _(or any prefered text editor)_ and set the **port** value to **9000** instead of **9025**.</br>
+Right-click it and open it with Notepad _(or any preferred text editor)_ and set the **port** value to **9000** instead of **9025**.</br>
 Then, in the very bottom of the file there should be a section titled VRChat. Change the **enabled** value to **true** and you should be all set!
 
 ## Using Last.fm for Album Artwork fetching
@@ -37,4 +44,4 @@ Then, once you verify your email, head to https://www.last.fm/api/account/create
 Make sure to name the application accordingly and set the Callback URL to http://localhost</br>
 Once you've gotten your API Key, paste the key and your Last.fm username into the fields in **squeakconfig.cfg**
 
-<sub>Last.fm support was added via a generious code donation from [@EuphieEuphoria](https://github.com/EuphieEuphoria), go send some love and support to him!</sub>
+<sub>Last.fm support was added via a generous code donation from [@EuphieEuphoria](https://github.com/EuphieEuphoria), go send some love and support to him! 🧡</sub>
