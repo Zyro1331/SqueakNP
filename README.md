@@ -17,10 +17,13 @@ SqueakNP supports **VRChat's Chatbox** feature, allowing other players to see wh
 <sub>Older or Alternative Operating Systems are untested and likely unsupported.</sub>
 <sub><sub></br>*Sorry Linux friends, you'll get some appreciation sooner or later!*</sub></sub>
 
-**Since SqueakNP is not self-packaged yet, you're going to have to setup Python 3.1x on your system.**</br>
-1. You can either grab Python at the [Official Website](https://www.python.org/downloads/) or from the [Microsoft Store](https://apps.microsoft.com/detail/9PNRBTZXMB4Z?hl=en-us&gl=US&ocid=pdpshare)</br>
-2. Once it's installed, go ahead and grab the latest version of SqueakNP from the releases tab.</br>
-3. Extract the zip file, and open a Terminal window to it. Make sure the Terminal's path is set to where all files are, instead of just the subfolder.</br>
+**Since SqueakNP is not self-packaged yet, you're going to have to setup Python on your system.**</br>
+1. Grab the latest Python 3.1x at the [Official Website](https://www.python.org/downloads/) or from the [Microsoft Store](https://apps.microsoft.com/detail/9PNRBTZXMB4Z?hl=en-us&gl=US&ocid=pdpshare)</br>
+2. Once it's installed, go ahead and grab the latest SqueakNP by clicking the green "Code" button at the top right and pressing "Download Zip".</br>
+<sub>*If you're familiar with GitHub, just clone the repo with whatever you like!</br>
+3. Extract the zip file, and open a Terminal window to it.</br>
+Make sure the Terminal's path is set to where all files are, instead of just the subfolder.</br>
+
 4. Create a new Virtual Environment with the following command.
 ```
 python3 -m venv env
