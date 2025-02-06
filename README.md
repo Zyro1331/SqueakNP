@@ -30,7 +30,7 @@ python3 -m venv env
 ```
 5. You should see a new folder appear called "env", now we can install the required dependencies to it!
 ```
-env/Scripts/pip.exe install -r requirements.txt
+"env\Scripts\pip.exe" install -r requirements.txt
 ```
 If you saw no errors during this process, congrats! You've got all the dependencies installed, and now you can run SqueakNP by running "start.bat"!</br>
 
