@@ -91,18 +91,17 @@ async def monitor_media_changes():
 
                     # Album Art Fetching
                     if useLastFM:
-                        print("🌐 Sending a query to Last.fm")
+                        print("🌐 Querying Last.fm for metadata")
                         try: 
-                            album_artwork_url = await lastfm_fetcher.request_album_art(config, media_properties)
-                        except Exception as e: print(f"Last.fm Fetcher Error: {e}") 
-                        if album_artwork_url != None:
-                            print(f"🌐 Recieved artwork from Last.fm: {album_artwork_url}")
-                            client.send_message('/squeaknp/lastfm_album_art', f"{album_artwork_url}")
-                        else:
-                            print("❌ No artwork was recieved from Last.fm")
-                            client.send_message('/squeaknp/lastfm_album_art', f"{str("")}")
+                            album_artwork_url, lastfm_track_url, lastfm_playcount = await lastfm_fetcher.query_lastfm_data(config, media_properties)
+                        except Exception as e: print(f"Last.fm fetcher error: {e}") 
+                        
+                        client.send_message('/squeaknp/lastfm_album_art', f"{album_artwork_url}")
+                        client.send_message('/squeaknp/lastfm_url', f"{lastfm_track_url}")
+                        client.send_message('/squeaknp/lastfm_playcount', lastfm_playcount)
 
                 if useLastFM:
+                    # Resubmit the Album Art each update to work around a strange Resonite bug that nulls the value at random
                     if album_artwork_url != None: client.send_message('/squeaknp/lastfm_album_art', f"{album_artwork_url}")
 
                 # Check for playback state changes
@@ -117,6 +116,7 @@ async def monitor_media_changes():
                 if media_timeline_properties.position.total_seconds() != 0 or media_timeline_properties.end_time.total_seconds() != 0: 
                     normalized_playback_position = media_timeline_properties.position.total_seconds() / media_timeline_properties.end_time.total_seconds()
 
+                # Submit Timeline Positions
                 client.send_message('/squeaknp/timeline_position', media_timeline_properties.position.total_seconds())
                 client.send_message('/squeaknp/timeline_end_time', media_timeline_properties.end_time.total_seconds())
                 client.send_message('/squeaknp/timeline_position_timecode', timedelta_to_hms_short(media_timeline_properties.position))
