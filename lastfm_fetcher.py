@@ -21,13 +21,13 @@ def getLastFMJson(lastFMKey, lastFMusername, artist, reqType, req):
 	
 	try: response = requests.get(requestURL)
 	except requests.exceptions.HTTPError as errh:
-		print(f"HTTP Error: {errh}")
+		raise(f"HTTP Error: {errh}")
 	except requests.exceptions.ConnectionError as errc:
-		print(f"Connection Error: {errc}")
+		raise(f"Connection Error: {errc}")
 	except requests.exceptions.Timeout as errt:
-		print(f"Timeout Error: {errt}")
+		raise(f"Timeout Error: {errt}")
 	except Exception as err:
-		print(f"Something went wrong: {err}")
+		raise(f"Request Failed: {err}")
 	else:
 		# print(requestURL) # Debug
 		# print(json.dumps(response.json(), indent=4)) # Debug
@@ -76,34 +76,37 @@ def request_album_art(lastfm_json: json, media_propeties: MediaProperties):
 	return album_art
 
 async def query_lastfm_data(config, media_properties: MediaProperties):
+	# Get preferences from config file
 	lastfm_key = config.get('last_fm', "last_fm_api_key")
 	lastfm_username = config.get('last_fm', "last_fm_username")
 	skip_album_name_check = config.getboolean('last_fm', "use_track_titles_only", fallback=False)
 
-	global last_fetch # Handle ratelimiting
+	# Prevent API Ratelimiting by supplying my own.
+	global last_fetch 
 	time_elapsed: float = time.time() - last_fetch
-	if time_elapsed < 3:
-		print("❌ Failed to get Last.fm data: Rate-limit protection active, please wait 10 seconds before querying again.")
-		return None
+	ratelimit: int = 3
+	if time_elapsed < ratelimit:
+		raise ValueError(f"Rate-limit protection active, please wait {ratelimit} seconds before querying again.")
 	last_fetch = time.time()
 
 	if lastfm_key == None or lastfm_username == None: # If nothing was provided in the config file, don't try to query any data.
-		print("❌ Failed to get Last.fm data: No Username or API Key was provided.")
-		return None
+		raise ValueError("No Username or API Key was provided.")
 	
-	if skip_album_name_check: lastfm_json = getLastFMJson(lastfm_key, lastfm_username, media_properties.artist, "track", media_properties.title)
-	else: lastfm_json = getLastFMJson(lastfm_key, lastfm_username, media_properties.album_artist, "album", media_properties.album_title)
+	# If there is no album name, or if the album name check was skipped, just use the other method anyways.
+	if skip_album_name_check or media_properties.album_title == str(""): 
+		lastfm_json = getLastFMJson(lastfm_key, lastfm_username, media_properties.artist, "track", media_properties.title)
+	else: 
+		lastfm_json = getLastFMJson(lastfm_key, lastfm_username, media_properties.album_artist, "album", media_properties.album_title)
 
-	if "error" in lastfm_json: # When something explodes, try again. It'll surely not explode again, right?
-		if lastfm_json.get("error") == 6 and not skip_album_name_check:
+		# If there's nothing provided by the album details, try it again with only track info.
+		if lastfm_json.get("error") == 6: 
 			print("🌐 Album query did not provide any results, retrying with track details instead.")
 			lastfm_json = getLastFMJson(lastfm_key, lastfm_username, media_properties.artist, "track", media_properties.title)
 			if "error" in lastfm_json:
-				print(f"❌ An error occured while fetching from Last.fm: {lastfm_json.get("message")}")
-				return None
-		else:
-			print(f"❌ An error occured while fetching from Last.fm: {lastfm_json.get("message")}")
-			return None
+				raise ValueError(lastfm_json.get("message"))
+
+	if "error" in lastfm_json:
+		raise ValueError(lastfm_json.get("message"))
 	
 	album_art = request_album_art(lastfm_json, media_properties) # Yoink the album artwork if it's found
 	track_url, playcount = getSongDetails(lastfm_json) # Get stuff like the Last.fm URL when avalible.

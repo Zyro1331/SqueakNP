@@ -83,7 +83,7 @@ async def monitor_media_changes():
 
                 # Broadcast and print out text metadata when it changes
                 if current_title != previous_title and current_title != str(""):
-                    print(f"Now Playing: \n:notes: {media_properties.title} \n:microphone: {media_properties.artist} \n:cd: {media_properties.album_title}")
+                    print(f"Now Playing: \n    :notes: {media_properties.title} \n    :microphone: {media_properties.artist} \n    :cd: {media_properties.album_title}")
                     client.send_message('/squeaknp/track_title', f"{media_properties.title}")
                     client.send_message('/squeaknp/track_artist', f"{media_properties.artist}")
                     client.send_message('/squeaknp/track_album', f"{media_properties.album_title}")
@@ -94,7 +94,11 @@ async def monitor_media_changes():
                         print("🌐 Querying Last.fm for metadata")
                         try: 
                             album_artwork_url, lastfm_track_url, lastfm_playcount = await lastfm_fetcher.query_lastfm_data(config, media_properties)
-                        except Exception as e: print(f"Last.fm fetcher error: {e}") 
+                        except Exception as e: 
+                            print(f"❌ Last.fm fetcher error: {e}")
+                            album_artwork_url = str("")
+                            lastfm_track_url = str("")
+                            lastfm_playcount = 0
                         
                         client.send_message('/squeaknp/lastfm_album_art', f"{album_artwork_url}")
                         client.send_message('/squeaknp/lastfm_url', f"{lastfm_track_url}")
