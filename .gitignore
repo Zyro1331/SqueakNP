@@ -1,3 +1,4 @@
 squeakconfig.cfg
 __pycache__/
 env/
+.vscode
