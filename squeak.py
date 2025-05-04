@@ -117,14 +117,14 @@ async def monitor_media_changes():
                     previous_playback_status = playback_status
                 
                 # Prevent dividing by zero multiple times if an application does not give playback data
-                if media_timeline_properties.position.seconds != 0 or media_timeline_properties.end_time.seconds != 0: 
-                    normalized_playback_position = media_timeline_properties.position.seconds / media_timeline_properties.end_time.seconds
+                if media_timeline_properties.position.total_seconds() != 0 or media_timeline_properties.end_time.total_seconds() != 0: 
+                    normalized_playback_position = media_timeline_properties.position.total_seconds() / media_timeline_properties.end_time.total_seconds()
                 else:
                     normalized_playback_position = float(0)
 
                 # Submit Timeline Positions
-                client.send_message('/squeaknp/timeline_position', media_timeline_properties.position.seconds)
-                client.send_message('/squeaknp/timeline_end_time', media_timeline_properties.end_time.seconds)
+                client.send_message('/squeaknp/timeline_position', media_timeline_properties.position.total_seconds())
+                client.send_message('/squeaknp/timeline_end_time', media_timeline_properties.end_time.total_seconds())
                 client.send_message('/squeaknp/timeline_position_timecode', timedelta_to_hms_short(media_timeline_properties.position))
                 client.send_message('/squeaknp/timeline_end_time_timecode', timedelta_to_hms_short(media_timeline_properties.end_time))
                 client.send_message('/squeaknp/timeline_normalized_position', normalized_playback_position)
