@@ -14,8 +14,9 @@ SqueakNP supports **VRChat's Chatbox** feature, allowing other players to see wh
 
 # How to Install
 > <sub>⚠️ You must be running Windows 10 or Windows 11 to use SqueakNP.</sub>
-<sub>Older or Alternative Operating Systems are untested and likely unsupported.</sub>
-<sub><sub></br>*Sorry Linux friends, you'll get some appreciation sooner or later!*</sub></sub>
+<sub>Older or Alternative Operating Systems are untested and likely unsupported.</sub></br>
+
+> <sub>🐧 If you're running Linux, you should go check out [GoSqueak](https://github.com/bredo228/GoSqueak)!</sub>
 
 **Since SqueakNP is not self-packaged yet, you're going to have to setup Python on your system.**</br>
 1. Grab the latest Python 3.1x at the [Official Website](https://www.python.org/downloads/) or from the [Microsoft Store](https://apps.microsoft.com/detail/9PNRBTZXMB4Z?hl=en-us&gl=US&ocid=pdpshare)</br>
