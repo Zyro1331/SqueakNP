@@ -1,4 +1,15 @@
+> [!NOTE]
+> As of March 30, 2026 — This application is going to remain unmaintained and I will no longer provide support for it.
+> 
+> Being that I have a general lack of experience in Python and that I've got many other things to work on nowadays, I'm throwing this app into the archives.  
+> I hope to create a spiritual successor to this little terminal app at another time, but I can't make any promises yet.  
+> The general Resonite community has many other projects much like this one, so I highly reccomend looking out there for alternatives.
+> 
+> Thanks for using SqueakNP!
+
 # SqueakNowPlaying 🦇
+
+
 A simple _(and janky)_ command-line Python app that reads track data from the Windows SMTC and broadcasts it over [OSC](https://en.wikipedia.org/wiki/Open_Sound_Control)
 
 Showcase your favorite music to others in your favorite Social VR applications!
